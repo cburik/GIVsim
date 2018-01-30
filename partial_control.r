@@ -114,7 +114,7 @@ for(i_rep in 1:rep){
     ### Generate Data ###
     markers = matrix(rbinom(n_markers*n_pop,2,0.5),ncol=n_markers)
             # Drawing markers from a binomial distribution, all have MAF 0.5
-    betas = mvrnorm(n_markers, mu=mub, Sigma = sigmab) # Coefficients for the
+    zeta = mvrnorm(n_markers, mu=mub, Sigma = sigmab) # Coefficients for the
                                         # markers, one column of y and one for T
     errors = mvrnorm(n_pop, mu=mue, Sigma = sigmae) # two columns of errors for y
                                                    # and one for T
@@ -124,8 +124,8 @@ for(i_rep in 1:rep){
    e_weight = sqrt(1-h2)
 
    # Generating y and T
-    T = markers %*% betas[,2] * m_weight  + errors[,3] * e_weight
-    y =  markers %*% betas[,1]  * m_weight + delta*T + (e1w * errors[,1] + e2w * errors[,2]) * e_weight
+    T = markers %*% zeta[,2] * m_weight  + errors[,3] * e_weight
+    y =  markers %*% zeta[,1]  * m_weight + delta*T + (e1w * errors[,1] + e2w * errors[,2]) * e_weight
 
     ### Run GWAS ###
     # Runs paralell over multiple cores, each loop is passed one column of the
@@ -159,8 +159,8 @@ for(i_rep in 1:rep){
     ## Generate Replication Sample ##
     markers_R = matrix(rbinom(n_markers*n_replic,2,0.5),ncol=n_markers)
     errors_R = mvrnorm(n_replic, mu=mue, Sigma = sigmae)
-    T_R = markers_R %*% betas[,2] * m_weight + errors_R[,3]* e_weight
-    y_R = T_R*delta + markers_R %*% betas[,1] * m_weight + (e1w * errors_R[,1] + e2w * errors_R[,2]) * e_weight
+    T_R = markers_R %*% zeta[,2] * m_weight + errors_R[,3]* e_weight
+    y_R = T_R*delta + markers_R %*% zeta[,1] * m_weight + (e1w * errors_R[,1] + e2w * errors_R[,2]) * e_weight
 
     ## create scores ##
     scores = markers_R %*% res[,1:3]  # N by 3, two scores for y, one for T

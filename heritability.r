@@ -84,7 +84,7 @@ for(i_rep in 1:rep){
     ### Generate Data ###
     markers = matrix(rbinom(n_markers*n_pop,2,0.5),ncol=n_markers)
         # Drawing markers from a binomial distribution, all have MAF 0.5
-    betas = mvrnorm(n_markers, mu=0, Sigma = 1) # Coefficients for the markers
+    zeta = mvrnorm(n_markers, mu=0, Sigma = 1) # Coefficients for the markers
     errors = mvrnorm(n_pop, mu=0, Sigma = 1) # error term in for y
 
     # Setting the correct weight for the markers and error terms
@@ -92,7 +92,7 @@ for(i_rep in 1:rep){
     e_weight = sqrt(1-h2)
 
     # Generate y
-    y = markers %*% betas * m_weight + errors * e_weight
+    y = markers %*% zeta * m_weight + errors * e_weight
 
     ### Run GWAS ###
     # Runs paralell over multiple cores, each loop is passed one column of the
@@ -116,7 +116,7 @@ for(i_rep in 1:rep){
     markers_R = matrix(rbinom(n_markers*n_replic,2,0.5),ncol=n_markers)
     errors_R = mvrnorm(n_replic, mu=0, Sigma=1)
 
-    y_R = markers_R %*% betas * m_weight + errors_R * e_weight
+    y_R = markers_R %*% zeta * m_weight + errors_R * e_weight
     scores = markers_R %*% res
 
     # Drop some variables for memory constraints

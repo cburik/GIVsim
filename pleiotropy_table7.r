@@ -108,7 +108,7 @@ onesr = matrix(1L,nrow=n_replic,ncol=1)  # Replication sample
 for(i_rep in 1:rep){    ### Generate Data ###
     markers = matrix(rbinom(n_markers*n_pop,2,0.5),ncol=n_markers)
             # Drawing markers from a binomial distribution, all have MAF 0.5
-    betas = mvrnorm(n_markers, mu=mu, Sigma = sigmab) # Coefficients for the
+    zeta = mvrnorm(n_markers, mu=mu, Sigma = sigmab) # Coefficients for the
                                         # markers, one column of y and one for T
     errors = mvrnorm(n_pop, mu=mu, Sigma = sigmae) # one column of errors for y
                                                    # and one for T
@@ -118,13 +118,13 @@ for(i_rep in 1:rep){    ### Generate Data ###
     e_weight_T = sqrt(1-h2T)
 
     # Generating T
-    T = markers %*% betas[,2] * m_weight_T  + errors[,2] * e_weight_T
+    T = markers %*% zeta[,2] * m_weight_T  + errors[,2] * e_weight_T
 
     # Setting the correct weight for the markers and error terms for y
     e_weight_y = sqrt(0.5)
     m_weight_y = sqrt((h2y*(delta^2 + e_weight_y^2)-h2T)/(1-h2y))/sqrt(0.5*n_markers) #IGNORING COVARIANCE TERMS FOR COMPARABLE EFFECT SIZES
 
-    y =  markers %*% betas[,1]  * m_weight_y + delta*T + errors[,1] * e_weight_y
+    y =  markers %*% zeta[,1]  * m_weight_y + delta*T + errors[,1] * e_weight_y
 
     ### Run GWAS ###
     # Runs paralell over multiple cores, each loop is passed one column of the
@@ -158,8 +158,8 @@ for(i_rep in 1:rep){    ### Generate Data ###
     ## Generate Replication Sample ##
     markers_R = matrix(rbinom(n_markers*n_replic,2,0.5),ncol=n_markers)
     errors_R = mvrnorm(n_replic, mu=mu, Sigma = sigmae)
-    T_R = markers_R %*% betas[,2]  * m_weight_T  + errors_R[,2]* e_weight_T
-    y_R = T_R*delta + markers_R %*% betas[,1] * m_weight_y + errors_R[,1]* e_weight_y
+    T_R = markers_R %*% zeta[,2]  * m_weight_T  + errors_R[,2]* e_weight_T
+    y_R = T_R*delta + markers_R %*% zeta[,1] * m_weight_y + errors_R[,1]* e_weight_y
 
     ## create scores ##
     scores = markers_R %*% res[,1:3]  # N by 3, two scores for y, one for T
