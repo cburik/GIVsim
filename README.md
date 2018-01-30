@@ -16,10 +16,10 @@ In this script we simulate a model where the goal is to estimate the effect of a
 This script is designed specifically for SI table 7. The parameter settings were unobtainable in `pleiotropy.r`.
 
 #### genetic_endogeneity.r
-Here we simulate a model where next to pleiotropy there is additional endogeneity that is genetic-related (e.g. genetic nurturing). See SI section 3 and SI tables 8-10
+Here we simulate a model where next to pleiotropy there is additional endogeneity that is genetic-related (e.g. genetic nurturing). See SI section 3 and SI tables 8-10.
 
 #### unrelated_endogeneity.r
-In this script a model is simulated where the additional endogeneity is not related to any genetic factors. See SI section 4 and SI tables 11-12
+In this script a model is simulated where the additional endogeneity is not related to any genetic factors. See SI section 4 and SI tables 11-12.
 
 #### partial_control.r
 In this script a model is simulated where the additional endogeneity is not related to any genetic factors, but we can partially control for this endogeneity in the hold-out sample. See SI section 4 and SI tables 13-15.
