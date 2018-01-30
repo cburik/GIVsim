@@ -1,7 +1,9 @@
-# GIVsim
+# Simulations of GIV regression 
 
 ## Introduction
 This repository contains the scripts for the SNP level simulations from DiPrete et al. (2018) *Genetic Instrumental Variable (GIV) regression: Explaining socioeconomic and health outcomes in non-experimental data*. See that text and the supporting information for the technical details on these simulations.
+
+All scripts have been written in R. 
 
 ## Overview
 This repository contains six R scripts, each script tests various methods (including OLS, MR and GIV) in a different setting. 
